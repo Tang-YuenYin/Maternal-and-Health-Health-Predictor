@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby's Journal</title>
+    <title>Mama's Jounal</title>
     <link rel="stylesheet" href="style.css">
     <script src="./node_modules/page-flip/dist/js/page-flip.browser.js"></script>    <script src="./node_modules/page-flip/dist/js/page-flip.browser.js"></script>
 </head>
 <body>
     <div id="book">
         <div class="my-page" data-density="hard" id="cover-page">
-          <h2>Baby's Journal</h2>
+          <h2>Mama's Journal</h2>
           <br>
-          <img src="https://img.freepik.com/premium-vector/illustration-baby-belly-with-cute-pose-love-isolated-pink-background_244307-389.jpg?w=740" alt="Fetal in Womb">
+          <img src="https://www.ruralhealthinfo.org/assets/4242-18191/rural-maternal-health-toolkit-thumb.jpg" alt="Mummy">
           <br><br>
           <div class="trimester-wrapper">
           <p>Start Date: <span id="start-date">26 May 2024</span></p>
@@ -25,9 +25,9 @@
         <div class="my-page" data-density="hard" id="last-page">
           <br>
 
-          <img src="https://media0.giphy.com/media/B1KxmQPjVykjiYiJze/giphy.gif?cid=6c09b952bf5qvlpy02492eilkjm4jz5ohmd3vley8de03z2i&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Onboarding to the Family Soon" >
+          <img src="https://media.tenor.com/DIwMSqxqQscAAAAM/soon-to-be-mom-pregnant.gif" alt="Safely Expecting Soon" >
           <br><br>
-          <h2>Onboarding to the Family Soon</h2>
+          <h2>Safely Expecting Soon</h2>
       
         </div>
     </div>
@@ -53,7 +53,7 @@
       const db = getFirestore(app);
   
       async function getRecords(db) {
-        const recordsCol = collection(db, 'Fetal');
+        const recordsCol = collection(db, 'Maternal');
         const recordSnapshot = await getDocs(recordsCol);
         const recordList = recordSnapshot.docs.map(doc => doc.data());
         return recordList;
@@ -82,17 +82,17 @@
 
             const baselineDiv = document.createElement('div');
             baselineDiv.classList.add('input-data-item');
-            baselineDiv.innerHTML = `<img src="https://cdn-icons-png.freepik.com/512/11969/11969704.png" alt="Baseline Value"><span> Accelerations:${record.input_data.accelerations}</span>`;
+            baselineDiv.innerHTML = `<img src="https://t3.ftcdn.net/jpg/02/87/70/82/360_F_287708200_wTq4URYtOsqH1Mjk2VxxulrkcTo0EkY0.jpg" alt="Blood Sugar"><span> Blood Sugar:${record.input_data.BS}</span>`;
             inputDataDiv.appendChild(baselineDiv);
 
             const uterineDiv = document.createElement('div');
             uterineDiv.classList.add('input-data-item');
-            uterineDiv.innerHTML = `<span> Uterine Contractions: ${record.input_data.uterine_contractions}</span><img src="https://media.istockphoto.com/id/1369187774/vector/cute-funny-crying-sad-uterus-character-vector-hand-drawn-traditional-cartoon-vintage-retro.jpg?s=612x612&w=0&k=20&c=tqZjWBghMwBAeTpQcpVIFG2j3qchFpk3oTosa6h7R20=" alt="Uterine Contractions">`;
+            uterineDiv.innerHTML = `<span> Diastolic BP: ${record.input_data.DiastolicBP}</span><img src="https://static.vecteezy.com/system/resources/previews/007/379/950/original/digital-upper-arm-blood-pressure-monitor-color-icon-oximeter-pulse-heart-rate-control-medical-device-systolic-diastolic-blood-pressure-measurement-sphygmomanometer-isolated-illustration-vector.jpg" alt="Diastolic BP">`;
             inputDataDiv.appendChild(uterineDiv);
 
             const fetalDiv = document.createElement('div');
             fetalDiv.classList.add('input-data-item');
-            fetalDiv.innerHTML = `<img src="https://i.pinimg.com/736x/50/5e/88/505e886a530cda28556950bd53d00a7b.jpg" alt="Fetal Movement"><span> Fetal Movement: ${record.input_data.fetal_movement}</span>`;
+            fetalDiv.innerHTML = `<img src="https://cdn3.vectorstock.com/i/1000x1000/44/37/systolic-blood-pressure-and-diastolic-vector-49434437.jpg" alt="SystolicBP"><span> SystolicBP: ${record.input_data.SystolicBP}</span>`;
             inputDataDiv.appendChild(fetalDiv);
 
             page.appendChild(inputDataDiv);
@@ -140,8 +140,7 @@
             
     </script>
 
-    <script src="./pageFlip.js"></script>
+    <!-- <script src="./pageFlip.js"></script> -->
    
 </body>
 </html>
-
