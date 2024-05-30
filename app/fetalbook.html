@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip Book</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="book">
+        <div class="my-page" data-density="hard">
+            Page Cover
+        </div>
+        <div class="my-page">
+            Page one
+        </div>
+        <div class="my-page">
+            Page two
+        </div>
+        <div class="my-page">
+            Page three
+        </div>
+        <div class="my-page">
+            Page four
+        </div>
+        <div class="my-page" data-density="hard">
+            Last page
+        </div>
+    </div>
+
+    <script src="..\node_modules\page-flip\dist\js\page-flip.browser.js"></script>
+    <script src="pageFlip.js"></script>
+</body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baby's Journal</title>
+  <style>
+    body {
+      font-family: 'Raleway', sans-serif;
+      overflow: hidden;
+      margin: 30px auto;
+      background-color: rgba(165, 165, 165, 0.116);
+    }
+    #flipbook {
+      width: 700px;
+      height:650px;
+    }
+    #f.page {
+      background: white;
+      border: 5px solid #6f646b;
+      font-size: 16px;
+      position: relative;
+      width:100%;
+      height:100%;
+    }
+    .cover-page {
+      text-align: center;
+      font-size: 24px;
+      font-family: 'Amatic SC', cursive;
+      background-color: #ffa297;
+    }
+
+    .cover-page img {
+      width: 200px;
+      height: auto;
+    }
+
+    .footer-page {
+      text-align: center;
+      font-size: 18px;
+      padding-top: 200px;
+    }
+    .footer-page img {
+      width:500px;
+      height: auto;
+     
+    }
+    .date {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+    }
+    .input-data {
+      margin: 50px 0;
+    }
+    .input-data-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .input-data-item img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .prediction {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+    }
+
+    .trimester-wrapper{
+      background-color: white;
+      width:400px;
+      text-align: center;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+</head>
+<body>
+  <div id="flipbook" class="flipbook">
+    <div class="page cover-page">
+      <h1>Baby Li's Journal</h1>
+      <img src="https://img.freepik.com/premium-vector/illustration-baby-belly-with-cute-pose-love-isolated-pink-background_244307-389.jpg?w=740" alt="Fetal in Womb">
+      <div class="trimester-wrapper">
+      <p>Start Date: <span id="start-date">26 May 2024</span></p>
+      <p>End Date: <span id="end-date">25 February 2025</span></p>
+      </div>
+    </div>
+    <!-- Pages will be dynamically inserted here -->
+    <!-- <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+      import { getFirestore, collection, query, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDX5sM1PqyORac-BrWoFTXwo1_pvbMNA7o",
+        authDomain: "idsproject-9c773.firebaseapp.com",
+        projectId: "idsproject-9c773",
+        storageBucket: "idsproject-9c773.appspot.com",
+        messagingSenderId: "178089213444",
+        appId: "1:178089213444:web:842d27d31078a93706ff51",
+        measurementId: "G-RVVYVNPBR6"
+      };
+  
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+  
+      async function getRecords(db) {
+        const recordsCol = collection(db, 'Fetal');
+        const recordSnapshot = await getDocs(recordsCol);
+        const recordList = recordSnapshot.docs.map(doc => doc.data());
+        return recordList;
+      }
+  
+        const records = await getRecords(db);
+        console.log('Fetched records:', records); // Debug log to check fetched records
+        const pagesContainer = $('#flipbook');
+        
+        $(document).ready(async function() {
+        
+        // Loop through the records and create pages
+        records.forEach(record => {
+            const page = $('<div class="page"></div>');
+            page.append(`<div class="date">${record.date}</div>`);
+            const inputData = record.input_data;
+            const inputDataDiv = $('<div class="input-data"></div>');
+            
+            // Adding baseline value
+            const baselineDiv = $('<div class="input-data-item"></div>');
+            baselineDiv.append('<img src="https://cdn-icons-png.freepik.com/512/11969/11969704.png" alt="Baseline Value">');
+            baselineDiv.append(`<span>Accelerations: ${inputData.accelerations}</span>`);
+            inputDataDiv.append(baselineDiv);
+  
+            // Adding uterine contractions
+            const uterineDiv = $('<div class="input-data-item"></div>');
+            uterineDiv.append('<img src="https://media.istockphoto.com/id/1369187774/vector/cute-funny-crying-sad-uterus-character-vector-hand-drawn-traditional-cartoon-vintage-retro.jpg?s=612x612&w=0&k=20&c=tqZjWBghMwBAeTpQcpVIFG2j3qchFpk3oTosa6h7R20=" alt="Uterine Contractions">');
+            uterineDiv.append(`<span>Uterine Contractions: ${inputData.uterine_contractions}</span>`);
+            inputDataDiv.append(uterineDiv);
+  
+            // Adding fetal movement
+            const fetalDiv = $('<div class="input-data-item"></div>');
+            fetalDiv.append('<img src="https://i.pinimg.com/736x/50/5e/88/505e886a530cda28556950bd53d00a7b.jpg" alt="Fetal Movement">');
+            fetalDiv.append(`<span>Fetal Movement: ${inputData.fetal_movement}</span>`);
+            inputDataDiv.append(fetalDiv);
+  
+            page.append(inputDataDiv);
+            page.append(`<div class="prediction">Prediction: ${record.prediction}</div>`);
+            pagesContainer.turn('addPage', page);
+          }
+        );
+  
+        $('#flipbook').turn({
+          width: 800,
+          height: 600,
+          autoCenter: true
+        });
+      });
+    </script>
+    <div class="page footer-page">
+      <br>
+      <h1>Onboarding to the Family Soon</h1>
+      <br>
+      <img src="https://media0.giphy.com/media/B1KxmQPjVykjiYiJze/giphy.gif?cid=6c09b952bf5qvlpy02492eilkjm4jz5ohmd3vley8de03z2i&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Onboarding to the Family Soon" >
+    </div>
+  </div>
+  
+</body>
+</html> -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baby's Journal</title>
+  <!-- Include PageFlip CSS -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pageflip/dist/pageflip.min.css">
+  <style>
+    body {
+      font-family: 'Raleway', sans-serif;
+      overflow: hidden;
+      margin: 30px auto;
+      background-color: rgba(165, 165, 165, 0.116);
+    }
+    #flipbook {
+      width: 700px;
+      height: 650px;
+    }
+    .page {
+      background: white;
+      border: 5px solid #6f646b;
+      font-size: 16px;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 0 5px #666;
+    }
+    .cover-page {
+      text-align: center;
+      font-size: 24px;
+      font-family: 'Amatic SC', cursive;
+      background-color: #ffa297;
+    }
+    .cover-page img {
+      width: 200px;
+      height: auto;
+    }
+    .footer-page {
+      text-align: center;
+      font-size: 18px;
+      padding-top: 200px;
+    }
+    .footer-page img {
+      width: 500px;
+      height: auto;
+    }
+    .date {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+    }
+    .input-data {
+      margin: 50px 0;
+    }
+    .input-data-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .input-data-item img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+    }
+    .prediction {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+    }
+    .trimester-wrapper {
+      background-color: white;
+      width: 400px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include PageFlip container
+  <div id="flipbook" class="pf-container">
+    <!-- Pages will be dynamically inserted here -->
+    <!-- <div class="pf-item pf-item-cover">
+      <div class="page cover-page">
+        <h1>Baby Li's Journal</h1>
+        <img src="https://img.freepik.com/premium-vector/illustration-baby-belly-with-cute-pose-love-isolated-pink-background_244307-389.jpg?w=740" alt="Fetal in Womb">
+        <div class="trimester-wrapper">
+          <p>Start Date: <span id="start-date">26 May 2024</span></p>
+          <p>End Date: <span id="end-date">25 February 2025</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="pf-item pf-item-normal">
+      <div class="page footer-page">
+        <br>
+        <h1>Onboarding to the Family Soon</h1>
+        <br>
+        <img src="https://media0.giphy.com/media/B1KxmQPjVykjiYiJze/giphy.gif?cid=6c09b952bf5qvlpy02492eilkjm4jz5ohmd3vley8de03z2i&ep=v1_internal_gif_by_id&rid=giphy.gif&ct=g" alt="Onboarding to the Family Soon">
+      </div>
+    </div>
+  </div>
+  <!-- Include PageFlip JS -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/pageflip/dist/pageflip.min.js"></script>
+  <script>
+    // Initialize PageFlip
+    new PageFlip(document.querySelector("#flipbook"), {
+      width: 700,
+      height: 650,
+      usePortrait: false // Use landscape orientation
+    });
+  </script>
+</body>
+</html> --> 
