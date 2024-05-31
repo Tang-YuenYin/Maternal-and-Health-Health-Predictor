@@ -115,12 +115,16 @@
             //  const book = document.getElementById('book');
                 const page = createPage(record);
                 book.insertBefore(page, lastPage); 
-                const div = document.querySelectorAll('.my-page');
                 // console.log(div);
                 //book.appendChild(page); // Append the page to the book
                 //document.getElementById('book').insertBefore(page, lastPage);
             });
-
+            const pages = document.querySelectorAll('.my-page');
+            if (pages.length % 2 !== 0) {
+            const blankPage = document.createElement('div');
+            blankPage.classList.add('my-page');
+            book.insertBefore(blankPage, lastPage);
+        }
             const Flip = new St.PageFlip(document.getElementById('last-page').parentNode, {
              width: 500, // required parameter - base page width
             height: 650, // required parameter - base page height
@@ -133,6 +137,7 @@
     Flip.on('flip', (e) => {
         // callback code
         console.log(`Current page number: ${e.data}`);
+
     });
 
             

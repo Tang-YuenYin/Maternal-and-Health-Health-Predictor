@@ -19,4 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // callback code
         console.log(`Current page number: ${e.data}`);
     });
+
+    
 });
