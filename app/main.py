@@ -8,11 +8,14 @@ from xgboost import XGBClassifier
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 def initialize_firebase():
     if not firebase_admin._apps:
-        cred = credentials.Certificate("idsproject-9c773-firebase-adminsdk-vt54a-d488d62e03.json")
+        cred = credentials.Certificate(os.getenv("FIREBASE_CREDENTIALS"))
         firebase_admin.initialize_app(cred)
     return firestore.client()
 

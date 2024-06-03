@@ -1,16 +1,22 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from sklearn.model_selection import train_test_split
+from xgboost import XGBClassifier
 import pickle
 import matplotlib.pyplot as plt
 import seaborn as sns
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def initialize_firebase():
     if not firebase_admin._apps:
-        cred = credentials.Certificate("idsproject-9c773-firebase-adminsdk-vt54a-d488d62e03.json")
+        cred = credentials.Certificate(os.getenv("FIREBASE_CREDENTIALS"))
         firebase_admin.initialize_app(cred)
     return firestore.client()
 
@@ -93,25 +99,28 @@ elif section == 'FetalHealth Prediction':
         input_df = pd.DataFrame([input_data], columns=feature_names)
         prediction = loaded_model.predict(input_df)
         prediction_label = label_map.get(prediction[0], "Unknown")
-        # Display the predicted fetal health
-        st.subheader("Predicted Fetal Health:")
+        # Display the predicted risk level
+        st.subheader("Predicted Risk Level:")
         st.write(prediction_label)
-        st.write(prediction)
-        # Store the prediction result for later use
-        st.session_state["prediction_result"] = {"label": prediction_label, "value": prediction[0]}
-
-    if "prediction_result" in st.session_state:
-        prediction_result = st.session_state["prediction_result"]
-        if st.button("Save to Baby's Journal"):
-            # Convert prediction value to a standard Python integer
-            prediction_value = int(prediction_result["value"])
-            # Save prediction to Firebase
-            doc_ref = db.collection("Fetal").add({
-            "date": datetime.now().isoformat(),
+        
+        # Store the prediction result in session state
+        st.session_state["prediction_result"] = {
             "input_data": input_data,
-            "prediction": prediction_result["label"],
-            "prediction_value": prediction_value
+            "prediction_label": prediction_label,
+            "prediction_value": int(prediction[0])
+        }
+
+# Check if there is a prediction result in session state and display the save button
+if "prediction_result" in st.session_state:
+    if st.button("Save to Mama's Journal"):
+        result = st.session_state["prediction_result"]
+        # Save prediction to Firebase
+        doc_ref = db.collection("Maternal").add({
+            "date": datetime.now().isoformat(),
+            "input_data": result["input_data"],
+            "prediction": result["prediction_label"],
+            "prediction_value": result["prediction_value"]
         })
-            st.success("Prediction saved to Firebase")
+        st.success("Prediction saved to Firebase")
 
 
