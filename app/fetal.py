@@ -134,11 +134,11 @@ def main():
 
         # Ensure session state is not empty before saving
         if "prediction_result" in st.session_state:
-            if st.button("Save to Mama's Journal"):
+            if st.button("Save to Baby's Journal"):
                 result = st.session_state["prediction_result"]
                 # Save prediction to Firebase
                 try:
-                    db.collection("Maternal").add({
+                    db.collection("Fetal").add({
                         "date": datetime.now().isoformat(),
                         "input_data": result["input_data"],
                         "prediction": result["prediction_label"]
